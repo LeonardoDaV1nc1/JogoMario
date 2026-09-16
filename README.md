@@ -3,4 +3,5 @@
 | Danillo da Silva Gomes | 01799496 | 
 | Maria Eduarda da Silva Santos | 01929385 |
 | Victo Diogo Figueiredo de Andrade | 01910545 | 
-|Tiago Henrique Gonçalves de Souza - 01905070 |
+| Tiago Henrique Gonçalves de Souza | 01905070 |
+| Marcos Avelino Martins | 01050428 |
