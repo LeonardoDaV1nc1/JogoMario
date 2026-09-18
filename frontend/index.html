@@ -8,11 +8,20 @@
 </head>
 <body>
     <div class="game-board">
+        <div class="score-container">
+            Pontos: <span id="score">0</span>
+        </div>
+
         <img src="css/images/clouds.png" class="clouds">
         <img src="css/images/mario.gif" class="mario">
         <img src="css/images/pipe.png" class="pipe" alt="Obstaculo">
     </div>
 
+    <div id="game-over-screen" class="game-over-screen" style="display: none;">
+        <h2>GAME OVER</h2>
+        <button id="restart-button">Jogar Novamente</button>
+    </div>
+    
     <audio id="som-pulo" src="https://www.myinstants.com/media/sounds/super-mario-jump.mp3"></audio>
     <audio id="som-gameover" src="https://www.myinstants.com/media/sounds/mario-dies-sound-effect.mp3"></audio>
 

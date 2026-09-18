@@ -5,6 +5,17 @@ const clouds = document.querySelector('.clouds');
 const somPulo = document.getElementById('som-pulo');
 const somGameOver = document.getElementById('som-gameover');
 
+let score = 0;
+let scoreInterval = null;
+
+scoreInterval = setInterval(() => {
+    score++;
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) {
+        scoreElement.innerText = score;
+    }
+}, 100);
+
 const jump = () => {
     if (!mario.classList.contains('jump')) {
         mario.classList.add('jump');
@@ -121,6 +132,19 @@ const loop = setInterval(() => {
             somGameOver.play().catch(e => console.log("Erro no som de game over:", e));
         }
 
+        clearInterval(scoreInterval);
         clearInterval(loop);
+
+        const gameOverScreen = document.getElementById('game-over-screen');
+        if (gameOverScreen) {
+            gameOverScreen.style.display = 'flex';
+        }
     }
 }, 10);
+
+const restartButton = document.getElementById('restart-button');
+if (restartButton) {
+    restartButton.addEventListener('click', () => {
+        location.reload();
+    });
+}
