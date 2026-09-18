@@ -2,8 +2,16 @@ const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
 const clouds = document.querySelector('.clouds');
 
+const somPulo = document.getElementById('som-pulo');
+const somGameOver = document.getElementById('som-gameover');
+
 const jump = () => {
     mario.classList.add('jump');
+
+    if (somPulo) {
+        somPulo.currentTime = 0;
+        somPulo.play();
+    }
 
     setTimeout(() => {
         mario.classList.remove('jump');
@@ -25,6 +33,10 @@ const loop = setInterval(() => {
         mario.src = 'css/images/game-over.png';
         mario.style.width = '75px';
         mario.style.marginLeft = '50px';
+
+        if (somGameOver) {
+            somGameOver.play();
+        }
 
         clearInterval(loop);
     }
