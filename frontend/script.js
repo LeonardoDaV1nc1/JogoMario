@@ -1,5 +1,5 @@
 const mario = document.querySelector('.mario');
-const pipe = document.querySelector('.pipe');
+const obstacle = document.querySelector('.pipe'); 
 const clouds = document.querySelector('.clouds');
 
 const somPulo = document.getElementById('som-pulo');
@@ -20,30 +20,31 @@ const jump = () => {
     }
 }
 
-const loop = setInterval(() => {
-    const pipePosition = pipe.offsetLeft;
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
-
-    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
-        
-        pipe.style.animation = 'none';
-        pipe.style.left = `${pipePosition}px`;
-
-        mario.style.animation = 'none';
-        mario.style.bottom = `${marioPosition}px`;
-
-        mario.src = 'css/images/game-over.png';
-        mario.style.width = '75px';
-        mario.style.marginLeft = '50px';
-
-        if (somGameOver) {
-            somGameOver.currentTime = 0;
-            somGameOver.play().catch(e => console.log("Erro no som de game over:", e));
+const duck = (isDucking) => {
+    if (!mario.classList.contains('jump')) {
+        if (isDucking) {
+            mario.classList.add('duck');
+            mario.src = 'css/images/mario-duck.png'; 
+            mario.style.height = '40px'; 
+        } else {
+            mario.classList.remove('duck');
+            mario.src = 'css/images/mario.gif';
+            mario.style.height = '150px'; 
         }
-
-        clearInterval(loop);
     }
-}, 10);
+};
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown' || event.code === 'KeyS') {
+        duck(true);
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'ArrowDown' || event.code === 'KeyS') {
+        duck(false);
+    }
+});
 
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Space' || event.key === ' ' || event.key === 'ArrowUp') {
@@ -74,3 +75,52 @@ document.addEventListener('keydown', (event) => {
         iniciarAudio();
     }
 });
+
+obstacle.addEventListener('animationiteration', () => {
+    const sortearBala = Math.random() < 0.4; 
+    if (sortearBala) {
+        obstacle.classList.add('bullet');
+        obstacle.src = 'css/images/bullet.png';
+    } else {
+        obstacle.classList.remove('bullet');
+        obstacle.src = 'css/images/pipe.png';
+    }
+});
+
+const loop = setInterval(() => {
+    if (!obstacle) return;
+
+    const obstaclePosition = obstacle.offsetLeft;
+    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
+    const isDucking = mario.classList.contains('duck');
+    const isBullet = obstacle.classList.contains('bullet');
+
+    let colidiu = false;
+
+    if (obstaclePosition <= 120 && obstaclePosition > 0) {
+        if (!isBullet && marioPosition < 80) {
+            colidiu = true;
+        } else if (isBullet && marioPosition < 70 && !isDucking) {
+            colidiu = true;
+        }
+    }
+
+    if (colidiu) {
+        obstacle.style.animation = 'none';
+        obstacle.style.left = `${obstaclePosition}px`;
+
+        mario.style.animation = 'none';
+        mario.style.bottom = `${marioPosition}px`;
+
+        mario.src = 'css/images/game-over.png';
+        mario.style.width = '75px';
+        mario.style.marginLeft = '50px';
+
+        if (somGameOver) {
+            somGameOver.currentTime = 0;
+            somGameOver.play().catch(e => console.log("Erro no som de game over:", e));
+        }
+
+        clearInterval(loop);
+    }
+}, 10);

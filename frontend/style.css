@@ -72,3 +72,19 @@
 .jump {
     animation: jump 500ms ease-out;
 }
+
+.mario.duck {
+    height: 60px;
+}
+
+.bullet {
+    position: absolute;
+    bottom: 50px; 
+    width: 65px;
+    animation: pipe-animation 1.5s infinite linear;
+}
+
+.mario.duck {
+    height: 60px;
+    transform: scaleX(-1);
+}
